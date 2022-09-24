@@ -1,6 +1,12 @@
 # Attribution: this assignment is based on ICMP Pinger Lab from Computer Networking: a Top-Down Approach by Jim Kurose and Keith Ross. 
 # It was modified for use in CSC249: Networks at Smith College by R. Jordan Crouser in Fall 2022
 
+# -------------------------------------
+# Name: Sabrina Hatch & Kaia Cormier
+# CSC 249 Computer Networks
+# 24 September 2022
+# -------------------------------------
+
 from socket import * 
 import os
 import sys 
@@ -45,6 +51,18 @@ def checksum(string):
     return answer
 
 
+
+
+# -------------------------------------
+# This method makes it so a packet 
+#  of data can be recieved by a host
+# @param mySocket
+# @param ID 
+# @param timeout
+# @param destAddr
+#
+# -------------------------------------
+
 def receiveOnePing(mySocket, ID, timeout, destAddr): 
     
     timeLeft = timeout
@@ -64,7 +82,9 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
         # Fill in start #
         #---------------#
 
-            # TODO: Fetch the ICMP header from the IP packet
+            # TODO: Fetch the ICMP header from the IP packet we need format and buffer
+        packet = recPacket.unpack("bbHHh", ICMP_ECHO_REQUEST)
+        print(packet)
 
         #-------------#
         # Fill in end #
@@ -77,6 +97,15 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
 
 
 
+
+
+# -------------------------------------
+# This method sends a packet
+#  of data to a destination host
+# @param mySocket
+# @param ID 
+# @param destAddr
+# -------------------------------------
 def sendOnePing(mySocket, destAddr, ID):
     # Header is type (8), code (8), checksum (16), id (16), sequence (16)
     myChecksum = 0
