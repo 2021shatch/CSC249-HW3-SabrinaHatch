@@ -83,7 +83,7 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
         #---------------#
 
             # TODO: Fetch the ICMP header from the IP packet we need format and buffer
-        packet = recPacket.unpack("d", time.time())
+        packet = recPacket.unpack("bbHHh", ICMP_ECHO_REQUEST)
         print(packet)
 
         #-------------#
@@ -118,7 +118,6 @@ def sendOnePing(mySocket, destAddr, ID):
 
     # Calculate the checksum on the data and the dummy header. 
     myChecksum = checksum(''.join(map(chr, header+data)))
-
 
     # Get the right checksum, and put in the header 
     if sys.platform == 'darwin':
