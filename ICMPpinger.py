@@ -83,7 +83,11 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
         #---------------#
 
             # TODO: Fetch the ICMP header from the IP packet we need format and buffer
-        packet = recPacket.unpack("bbHHh", ICMP_ECHO_REQUEST)
+      #packet (and therefore header) is in form of byte array 
+      #we recieve a tuple - unmodifiable array
+      #header is 8 byte array
+        packet = struct.unpack("bbHHh", recPacket[20:28])
+      #
         print(packet)
 
         #-------------#
