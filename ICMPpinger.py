@@ -90,7 +90,13 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
         type, code, checksum, id, sequence = struct.unpack("bbHHh", recPacket[20:28])
         #for ICMP Echo request, check if type and code are both 0
         if type == 0 and code == 0:
-          return (type)
+          #make a variable for valid? or just put new unpack/return in here? 
+          #return ("valid")
+          timeRec = time.time()
+          bytesInDouble = struct.calcsize("d")
+          timeSent = struct.unpack("d", recPacket[28:28 + bytesInDouble])[0]
+          return timeRec - timeSent
+          
 
         #-------------#
         # Fill in end #
