@@ -29,7 +29,11 @@ def build_packet():
 
         # TODO: Make the header in a similar way to the ping exercise.
         # Append checksum to the header.
-        
+    #taken directly from sendOnePing, do we need to alter any of the params?
+    header = struct.pack("bbHHh", ICMP_ECHO_REQUEST, 0, myChecksum, ID, 1)
+    #do we need to make the data too? 
+    data = struct.pack("d", time.time())
+  
     #-------------#
     # Fill in end #
     #-------------#
@@ -48,7 +52,20 @@ def get_route(hostname):
             # Fill in start #
             #---------------#
 
-                # TODO: Make a raw socket named mySocket
+                # TODO: Make a raw socket named mySocket/pasted from doOnePing
+            icmp = getprotobyname("icmp")
+
+            # SOCK_RAW is a powerful socket type. For more details:
+            # http://sock-raw.org/papers/sock_raw
+
+            mySocket = socket(AF_INET, SOCK_RAW, icmp)
+
+            myID = os.getpid() & 0xFFFF  # Return the current process i
+            sendOnePing(mySocket, destAddr, myID)
+            delay = receiveOnePing(mySocket, myID, timeout, destAddr)
+
+            mySocket.close()
+            return delay
 
             #-------------#
             # Fill in end #
@@ -83,7 +100,9 @@ def get_route(hostname):
                 # Fill in start #
                 #---------------#
 
-                    #TODO: Fetch the icmp type from the IP packet
+                    #TODO: Fetch the icmp type from the IP packet/code from ICMPpinger
+                type, code, checksum, id, sequence = struct.unpack("bbHHh",recPacket[20:28])
+                return(type)
 
                 #-------------#
                 # Fill in end #

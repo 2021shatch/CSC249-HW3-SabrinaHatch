@@ -71,7 +71,6 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
 
         whatReady = select.select([mySocket], [], [], timeLeft)
         howLongInSelect = (time.time() - startedSelect)
-        print( "before if" , whatReady)
         if whatReady[0] == []:# Timeout
             return "Request timed out!"
         
